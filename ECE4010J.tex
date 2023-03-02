@@ -1,0 +1,277 @@
+\documentclass[11pt,a4paper]{article}
+
+%just apply these packets
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}     %for Proof environment
+\usepackage{enumerate}
+\usepackage{geometry}
+\geometry{top=1in,bottom=1in,left=1in,right=1in}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{height=10cm,compat=1.18}
+\usepackage{empheq}
+\usepackage{xcolor}
+
+\newcommand{\uu}{\mathrm{u}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\dt}{\mathrm{d}t}
+\newcommand{\ddt}{\frac{\dd}{\dd t}}
+\newcommand{\dA}{\dd A}
+\newcommand{\ii}{\mathbf{i}}
+\newcommand{\jj}{\mathbf{j}}
+\newcommand{\kk}{\mathbf{k}}
+\newcommand{\dx}{\dd x}
+\newcommand{\ddx}{\ddot{x}}
+\newcommand{\dy}{\dd y}
+\newcommand{\ddy}{\ddot{y}}
+\newcommand{\dz}{\dd z}
+\newcommand{\ddz}{\ddot{z}}
+\newcommand{\ppx}{\dfrac{\partial }{\partial x}}
+\newcommand{\ppy}{\dfrac{\partial }{\partial y}}
+\newcommand{\ppz}{\dfrac{\partial }{\partial z}}
+%\newcommand{\det}{\mathrm{det}}
+\newcommand{\sgn}{\mathrm{sgn}(\pi)}
+\newcommand{\TT}{\mathbf{T}}
+\newcommand{\NN}{\mathbf{N}}
+\newcommand{\BB}{\mathbf{B}}
+\newcommand{\dydx}{\dfrac{\dd y}{\dd x}}
+\newcommand{\tc}{\tilde{c}}
+
+\newtheorem*{theorem}{THEOREM}
+\newtheorem*{lemma}{LEMMA}
+\newtheorem*{proposition}{PROPOSITION}
+\newtheorem*{corollary}{Corollary}
+\newtheorem*{example}{\bf EXAMPLE}
+\newtheorem*{definition}{\bf DEFINITION}
+
+\begin{document}
+\author{Hollins Yu}
+\title{\bf  ECE4010J \\ \LARGE Probabilistic Methods in Engineering}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\noindent
+{\fontsize{40pt}{20}\bf\color[RGB]{255,0,0}DO\\NOT\\GAMBLE}
+\newpage
+
+\part{Elements of Probability Theory}
+\section{Elementary Probility}
+
+\subsection{Basic Principles of Counting - Permuutation and Combination}
+
+\subsection{Binomial Coefficients}
+We define binomial coefficients by
+\begin{gather}
+    \binom{\alpha}{0} := 1 \\
+    \binom{\alpha}{n}:=\frac{\alpha\cdot(\alpha-1)\cdots(\alpha-n+1)}{n!}
+\end{gather}
+
+\section{Conditional Probability}
+
+
+\subsection{Total Probability}
+Let $A_i$ be a set of mutually exclusive events that $\bigcup A_i=S$.
+Let $B\subset S$ be any event, then the probability of $B$ is
+\begin{gather}
+    P[B]=\sum_{k=1}^{n}P[B|A_k]\cdot P[A_k].
+\end{gather}
+\subsection{Bayer's Theorem}
+Let $A_i$ be a set of mutually exclusive events that $\bigcup A_i=S$.
+Let $B\subset S$ be any event, then the probability of $B$ is
+\begin{gather}
+    P[A_k|B]=\frac{P[B\cap A_k]}{P[B]}=\frac{P[B| A_k]\cdot P[A_k]}{\sum_{j=1}^{n}P[B| A_j]\cdot P[A_j]}.
+\end{gather}
+
+\begin{example}
+    A Rare Disease
+\end{example}
+\begin{example}
+    The Monty Hall Paradox
+\end{example}
+
+
+\section{Discrete Random Varaibles}
+\subsection{Bernoulli Trail}
+\begin{definition}
+    Consider an event with success probability $p\in(0,1)$. Then the trail is called
+    a {\bf Bernoulli trail}.
+    \begin{align}
+        f_X:\{0,1\}\rightarrow \mathbb{R}, \quad f_X(x)=\begin{cases*}
+                                                            1-p & {\rm for} x = 0  \\
+                                                            p   & {\rm for} x = 1.
+                                                        \end{cases*}
+    \end{align}
+    Then $X$ is a Bernoulli random variable, denoted as\[X\sim \mathrm{Bernoulli}(p).\]
+\end{definition}
+
+\subsection{Binomial Random Variable}
+To count a sepuence of identical Bernoulli trails, we find\[P[x \mathrm{\ successes\ in\ } n \mathrm{\ trails}]=
+    \binom{n}{x}p^x(1-p)^{n-x}.\]
+\begin{definition}
+    Let $0<p<1$ and define the density function
+    \begin{align}
+        f_X:\varOmega \rightarrow \mathbb{R},
+        \quad f_X(x)=\binom{n}{x}p^x(1-p)^{n-x}.
+    \end{align}
+    Then $X$ is a Binomial random variable, denoted as\[X\sim \mathrm{B}(n,p).\]
+\end{definition}
+
+\subsection{The Geometric Distribution}
+\[X: S\rightarrow\Omega = \mathbb{N} \backslash \{0\}\]
+
+\begin{example}
+    Find the probability that a roulette wheel returned black more than 20 times in a
+    row.
+\end{example}
+
+
+\noindent{\bf Solution:}
+
+123
+
+
+\section{Expectation, Variance and Moments}
+\subsection{Expection}
+The expectation of $X$ is:
+\[\mathrm{E}[X]:=\sum_{x\in\Omega}^{}x\cdot f_X(x)\]
+\subsection{Functions of Random Variables}
+
+
+\subsection{Varience and Standard Deviation}
+*some DIY proof needed here*
+
+
+\section{The Pascal, Negative Binomial and Poisson Distributions}
+\subsection{The Pascal Distribution}
+
+\subsection{The Negative Binomial Distribution}
+
+\subsection{The Poisson Distribution}
+The Poisson distribution describes the occurrence of events that occur
+at a {\it\bf constant rate} in a {\it\bf continuous} environment.
+It's density function and moment generating function are given by
+\begin{align}
+    f_X(x) = \frac{k^x e^{-k}}{x!} \\
+    m_X  (t) = e^{k(e^t-1)}
+\end{align}
+
+
+
+\subsection{Approximating the Binomial Distribution}
+With a large enough number of trails, we can
+If $n\rightarrow\infty$ while $n\cdot p=:\lambda$ remains constant,
+\begin{gather}
+    \binom{n}{m}
+    p^m(1-p)^{n-m}     \xrightarrow[n\cdot p =k]{n\rightarrow \infty} \frac{k^m}{m!}e^{-k}
+\end{gather}
+
+\section{Continuous Random Variables}
+\noindent {\large \textsc{Definition.}}
+A continuous random variable $(X,f_X)$
+\begin{enumerate}
+    \item $f_X\le0$
+    \item $\int_{-\infty}^{\infty}f_X\ \dx = 0$
+\end{enumerate}
+*Notice: Probability of any specific value is 0.
+\subsection{Cumulative Distribution}
+\begin{gather}
+    F_X(x):=P[X\le x]=\int_{-\infty}^{x}f_X(y)\ \dy\\
+    \mathrm{E}[X]:=\int_\mathbb{R}x\cdot F_X(x)\ \dx\\
+    \mathrm{E}[\varphi \circ x] = \int^\infty_{-\infty}\varphi(x)f_X(x)\ \dx
+\end{gather}
+
+\subsection{The Exponential Distribution}
+\begin{gather}
+    f_\beta(x) = \begin{cases}
+        \beta e^{-\beta x} & x>0   \\
+        0                  & x\le0
+    \end{cases}
+\end{gather}
+Expectation:
+\begin{align*}
+    \mathrm{E}[X] & = \int_{-\infty}^{\infty}x\cdot f_\beta(x)\ \dx   \\
+                  & = \int_{0}^{\infty}x\cdot \beta e^{-\beta x}\ \dx \\
+                  & =
+\end{align*}
+
+
+\subsection{Location of Continuous Distributions}
+i
+ii
+iii
+
+\section{The Normal Distribution}
+Let $\mu\in\mathbb{R}$, $\sigma>0$. A continuous random variable $(X,f_X)$ with density function
+\[f_X(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-((x-\mu)/\sigma^2)/2}\]
+follows the normal distribution.
+We denote as $X\sim N(\mu,\sigma)$ if $X$ follows normal distribution with mean
+$\mu$ and variance $\sigma^2$.
+\newline
+
+\begin{proposition}
+    $$\int_{\mathbb{R}}f_X(x)\ \dx=1$$
+\end{proposition}
+\begin{proof}
+    Let $y=\dfrac{x-\mu}{\sigma}$, then we get
+    \[\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-y^2/2}\ \dy\]
+    Then we calculate the squared value.
+    \begin{align*}
+        \left(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-y^2/2}\ \dy\right)^2 & =
+        \frac{1}{2\pi}\iint_{\mathbb{R}^2}e^{-(x^2+y^2)/2}\,\dx\,\dy                   \\
+    \end{align*}
+    Use polar coordinates to find the final value.
+    \begin{align*}
+         & =\frac{1}{2\pi}\int_{0}^{\infty}\int_{0}^{2\pi}e^{-r^2/2}r\ \dd\theta\ \dd r \\
+         & = 1
+    \end{align*}
+\end{proof}
+{\bf Find the M.G.F of the normal distribution.}
+
+
+\subsection{Standard Normal Distribution}
+A normal distribution with $\mu=0$ and $\sigma=1$ is called {\it standard normal}
+random variable, denoted by $Z$.
+
+\subsection{Transformation of Random Variables}
+Let $X$ be a continuous random variable with density $f_X$, and $Y=\varphi\circ X$,
+where $\varphi:\mathbb{R}\rightarrow\mathbb{R}$ is strictly monotonic and differentiable.
+The density for $Y$ is then given by
+\[f_Y(y)=\]
+
+\section{Multivariate Random Variables}
+\section{The Weak Law of Large Numbers}
+\section{The Hypergeometric Distribution}
+\section{Transformation of Random Variables}
+\section{Reliability}
+
+\newpage
+\part{Introduction to Stastics}
+\section{Samples and Data}
+\section{Parameter Estimation}
+\section{Interval Estimation}
+\section{The Fisher Test}
+\section{Neyman-Pearson Decision Theory}
+\section{Null Hypothesis Significance Testing}
+\section{Single Sample Tests for the Mean and Variance}
+\section{Non-Parametric Single Sample Tests for the Median}
+\section{Inferences on Proportions}
+\section{Comparison of Two Variances}
+\section{Comparison of Two Means}
+\section{Non-Parametric Comparisons; Paired Tests and Correlation}
+\section{Categorical Data}
+
+\newpage
+\part{Introduction to Linear Regression}
+\section{Simple Linear Regression I: Basic Model and Inferences}
+\section{Simple Linear Regression II: Predictions and Model Analysis}
+\section{Multiple Linear Regression I: Basic Model}
+\section{Multiple Linear Regression II: Inferences on the Model}
+\section{Multiple Linear Regression III: Finding the Right Model}
+\section{ANOVA I: Basic Model}
+\section{ANOVA II: Homoscedasticity and Post-Tests}
+
+
+\end{document}
