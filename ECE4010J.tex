@@ -38,11 +38,13 @@
 \newcommand{\BB}{\mathbf{B}}
 \newcommand{\dydx}{\dfrac{\dd y}{\dd x}}
 \newcommand{\tc}{\tilde{c}}
+\newcommand{\XX}{\mathbf{X}}
+\newcommand{\YY}{\mathbf{Y}}
 
-\newtheorem*{theorem}{THEOREM}
-\newtheorem*{lemma}{LEMMA}
-\newtheorem*{proposition}{PROPOSITION}
-\newtheorem*{corollary}{Corollary}
+\newtheorem*{theorem}{\bf THEOREM}
+\newtheorem*{lemma}{\bf LEMMA}
+\newtheorem*{proposition}{\bf PROPOSITION}
+\newtheorem*{corollary}{\bf Corollary}
 \newtheorem*{example}{\bf EXAMPLE}
 \newtheorem*{definition}{\bf DEFINITION}
 
@@ -50,8 +52,10 @@
 \author{Hollins Yu}
 \title{\bf  ECE4010J \\ \LARGE Probabilistic Methods in Engineering}
 \maketitle
+
 \newpage
 \tableofcontents
+
 \newpage
 \noindent
 {\fontsize{40pt}{20}\bf\color[RGB]{255,0,0}DO\\NOT\\GAMBLE}
@@ -70,8 +74,6 @@ We define binomial coefficients by
 \end{gather}
 
 \section{Conditional Probability}
-
-
 \subsection{Total Probability}
 Let $A_i$ be a set of mutually exclusive events that $\bigcup A_i=S$.
 Let $B\subset S$ be any event, then the probability of $B$ is
@@ -92,8 +94,11 @@ Let $B\subset S$ be any event, then the probability of $B$ is
     The Monty Hall Paradox
 \end{example}
 
-
 \section{Discrete Random Varaibles}
+\begin{definition}
+    The probability density function or probability
+    distribution of X is defined as \[f_X(x)=P[X=x]\]
+\end{definition}
 \subsection{Bernoulli Trail}
 \begin{definition}
     Consider an event with success probability $p\in(0,1)$. Then the trail is called
@@ -119,9 +124,39 @@ To count a sepuence of identical Bernoulli trails, we find\[P[x \mathrm{\ succes
     Then $X$ is a Binomial random variable, denoted as\[X\sim \mathrm{B}(n,p).\]
 \end{definition}
 
-\subsection{The Geometric Distribution}
-\[X: S\rightarrow\Omega = \mathbb{N} \backslash \{0\}\]
+\subsection{Cumulative Distribution Function}
+In practice, the cumulative distribution function is defined as
+\[F_X:\mathbb{R}\rightarrow\mathbb{R}, \quad
+    F_X(x):=P[X\le x]\]
+In mathmatica, we calculate C.D.F using the following command
+\begin{verbatim}
+    CDF[BinomialDistribution[n,p],x]
+\end{verbatim}
 
+\subsection{The Geometric Distribution}
+\label{Geom}
+When counting the first success in a sequence of Bernoulli trails,
+we introduce the Geometric distribution.
+\begin{definition}
+    Let $S$ be the sample space, $0<p<1$.
+    \begin{gather*}
+        X: S\rightarrow\varOmega = \mathbb{N} \backslash \{0\} \\
+        f_X:\mathbb{N}\backslash \{0\}\rightarrow\mathbb{R},
+        \quad f_X(x)=(1-p)^{x-1}p
+    \end{gather*}
+    We say that $X$ is a geometric random variable, denoted as
+    \[X\sim \mathrm{Geom}(p).\]
+\end{definition}
+In mathmatica,
+\begin{verbatim}
+    PDF[GeometricDistribution[p], x]
+    Probability[1 < x ≤ 4, x È GeometricDistribution[p]]
+\end{verbatim}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\bf\color[RGB]{255,0,0}NOTICE:}
+
+The geometric distribution here
+gives the number of {\bf\color[RGB]{255,0,0}failures} before the first success.
 \begin{example}
     Find the probability that a roulette wheel returned black more than 20 times in a
     row.
@@ -132,49 +167,130 @@ To count a sepuence of identical Bernoulli trails, we find\[P[x \mathrm{\ succes
 
 123
 
-
 \section{Expectation, Variance and Moments}
 \subsection{Expection}
-The expectation of $X$ is:
-\[\mathrm{E}[X]:=\sum_{x\in\Omega}^{}x\cdot f_X(x)\]
+\begin{definition}
+    The expectation of discrete random variable $X$ is:
+    \[\mathrm{E}[X]:=\sum_{x\in\varOmega}^{}x\cdot f_X(x).\]
+    We write $\mu$ or $\mu_X$ for the expectation.
+\end{definition}
+
 \subsection{Functions of Random Variables}
+Let $(Y,f_Y)$ be a discrete random variable.
+Consider a new random variable $(Y,f_Y)$ that satisfies
+\begin{gather*}
+    Y=\varphi(X),\quad \varphi:\varOmega\rightarrow\mathbb{R}\\
+    f_Y(y)=P[Y=y]=P[\varphi(X)=y]
+\end{gather*}
+Since $X$ is discrete,
+\[P[\varphi(X)=y]=\sum_{\substack{x\in\varOmega\\\varphi(x)=y}}f_X(x).\]
+
+
+\begin{lemma}
+    Let $(X,f_X)$ be a discrete random variable, $\varphi:\varOmega\rightarrow\mathbb{R}$.
+    The expection of $\varphi\circ X$ is
+    \[\mathrm{E}[\varphi\circ X]=\sum_{x\in\varOmega}^{}\varphi(x)\cdot f_X(x)\]
+    if the right hand side converges.
+\end{lemma}
 
 
 \subsection{Varience and Standard Deviation}
-*some DIY proof needed here*
+\begin{definition}
+    The mean square deviation is
+    \[\mathrm{Var}[X]:=\mathrm{E}[(X-\mathrm{E}[X])^2]\]
+    The variance is denoted by $\sigma_X^2$ or $\sigma^2$.
 
+    The standard deviation is defined as\[\sigma_X=\sqrt{\mathrm{Var}[X]}\]
+\end{definition}
 
+\subsection{Standardized Random Variables}
+\begin{definition}
+    If $X$ is a given random variable, the standardized variable is
+    \[Y=\frac{X-\mu}{\sigma}.\]
+    We find that $\mathrm{E}[Y]=0$, $\mathrm{Var}[Y]=1$
+\end{definition}
+\begin{proof}
+    *some DIY proof needed here*
+\end{proof}
+
+\subsection{Ordinary and Central Moments}
+\begin{definition}
+    Given a random variable $X$, $\mathrm{E}[X^n]$ are known as the $n^{th}$ ordinary moments of $X$.
+    $\mathrm{E}\left[\left(\dfrac{X-\mu}{\sigma}\right)^n\right]$ are called the $n^{th}$ central moments of $X$.
+\end{definition}
+
+\subsection{The Moment-Generating Function}
+\begin{definition}
+    Let $(X,f_X)$ be a random variable with moments $\mathrm{E}[X^n]$.
+
+    If power series
+    \[m_X(t):=\sum_{k=0}^{\infty}\frac{\mathrm{E}[X^k]}{k!}t^k\]
+    \indent has radius of converge $\varepsilon>0$, then $m_X(t)$ is the M.G.F of $X$.
+\end{definition}
+\begin{theorem}
+    \[m_X(t)=\mathrm{E}[e^{tX}]\quad \mathrm{for}\,|t|<\varepsilon\]
+\end{theorem}
+
+\subsection{M.G.F for the Geometric Distribution}
+
+%chapter 5
 \section{The Pascal, Negative Binomial and Poisson Distributions}
 \subsection{The Pascal Distribution}
+The probability of getting $r$ successes in $x$ trails.
+\begin{definition}
+    The density function of a Pascal Distribution is
+    \begin{gather*}
+        f_X(x)=\binom{x-1}{r-1}p^r(1-p)^{x-r}
+    \end{gather*}
+\end{definition}
+\subsubsection{The M.G.F for the Pascal Distribution}
+\begin{gather*}
+    m_X(t)=\frac{(pe^t)^r}{(1-qe^t)^r}, \quad q=1-p\\
+    \mathrm{E}[X]=r/p\\
+    \mathrm{Var}[X]=rq/p^2
+\end{gather*}
+\begin{verbatim}
+    MomentGeneratingFunction[PascalDistribution[r, p], t]
+\end{verbatim}
 
 \subsection{The Negative Binomial Distribution}
+Count the number of failures before $r$ successes.
+\begin{definition}
+    \begin{gather*}
+        f_X(x)=\binom{x+r-1}{r-1}p^r(1-p)^x
+    \end{gather*}
+\end{definition}
 
 \subsection{The Poisson Distribution}
 The Poisson distribution describes the occurrence of events that occur
-at a {\it\bf constant rate} in a {\it\bf continuous} environment.
+at a {\bf constant rate} in a {\bf continuous} environment.
 It's density function and moment generating function are given by
-\begin{align}
+\begin{gather*}
     f_X(x) = \frac{k^x e^{-k}}{x!} \\
-    m_X  (t) = e^{k(e^t-1)}
-\end{align}
-
-
+    m_X  (t) = e^{k(e^t-1)}\\
+    \mathrm{E}[X]=k\\
+    \mathrm{Var}[X]=k\\
+    F(x)=P[X\le x]=\sum_{y=1}^{\left\lfloor x \right\rfloor}\frac{e^{-k}k^y}{y!}
+\end{gather*}
 
 \subsection{Approximating the Binomial Distribution}
 With a large enough number of trails, we can
 If $n\rightarrow\infty$ while $n\cdot p=:\lambda$ remains constant,
-\begin{gather}
+\begin{gather*}
     \binom{n}{m}
     p^m(1-p)^{n-m}     \xrightarrow[n\cdot p =k]{n\rightarrow \infty} \frac{k^m}{m!}e^{-k}
-\end{gather}
+\end{gather*}
 
+% chapter 6
 \section{Continuous Random Variables}
-\noindent {\large \textsc{Definition.}}
-A continuous random variable $(X,f_X)$
-\begin{enumerate}
-    \item $f_X\le0$
-    \item $\int_{-\infty}^{\infty}f_X\ \dx = 0$
-\end{enumerate}
+\begin{definition}
+    A continuous random variable $(X,f_X)$
+    \begin{enumerate}
+        \item $f_X\le0$
+        \item $\int_{-\infty}^{\infty}f_X\ \dx = 0$
+    \end{enumerate}
+\end{definition}
+
 *Notice: Probability of any specific value is 0.
 \subsection{Cumulative Distribution}
 \begin{gather}
@@ -194,22 +310,48 @@ Expectation:
 \begin{align*}
     \mathrm{E}[X] & = \int_{-\infty}^{\infty}x\cdot f_\beta(x)\ \dx   \\
                   & = \int_{0}^{\infty}x\cdot \beta e^{-\beta x}\ \dx \\
-                  & =
+                  & = \frac{1}{\beta}
 \end{align*}
 
-
 \subsection{Location of Continuous Distributions}
-i
-ii
-iii
+\begin{enumerate}
+    \item Median $M_X$ is defined by $P[M\le M_X]=0.5$.
+    \item Mean $\mathrm{E}[X]$.
+    \item Mode $x_0$
+\end{enumerate}
+
+\subsection{The Gamma Distribution}
+\begin{definition}
+    A continuous random variable
+    $(X, f_{\alpha,\beta})$ with density
+    \begin{gather*}
+        f_{\alpha,\beta}(x)=\begin{cases}
+            \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}, & x>0    \\
+            0,                                                           & x\le 0
+        \end{cases}
+    \end{gather*}
+    in which
+    \begin{gather*}
+        \Gamma(\alpha)=\int_{0}^{\infty}z^{\alpha-1}e^{-z}\,\dz, \quad \alpha>0
+    \end{gather*}
+
+\end{definition}
+The Gamma function satisfies $\Gamma(1)=1,\Gamma(\alpha)=(\alpha-1)\Gamma(\alpha-1)$
+
+\begin{gather*}
+    m_X(t)=(1-t/\beta)^{-\alpha}\\
+    \mathrm{E}[X]=\alpha/\beta\\
+    \mathrm{Var}[X]=\alpha/\beta^2
+\end{gather*}
 
 \section{The Normal Distribution}
-Let $\mu\in\mathbb{R}$, $\sigma>0$. A continuous random variable $(X,f_X)$ with density function
-\[f_X(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-((x-\mu)/\sigma^2)/2}\]
-follows the normal distribution.
-We denote as $X\sim N(\mu,\sigma)$ if $X$ follows normal distribution with mean
-$\mu$ and variance $\sigma^2$.
-\newline
+\begin{definition}
+    Let $\mu\in\mathbb{R}$, $\sigma>0$. A continuous random variable $(X,f_X)$ with density function
+    \[f_X(x) = \frac{1}{\sqrt{2\pi}\sigma}e^{-((x-\mu)/\sigma^2)/2}\]
+    follows the normal distribution.
+    We denote as $X\sim N(\mu,\sigma)$ if $X$ follows normal distribution with mean
+    $\mu$ and variance $\sigma^2$.
+\end{definition}
 
 \begin{proposition}
     $$\int_{\mathbb{R}}f_X(x)\ \dx=1$$
@@ -232,45 +374,330 @@ $\mu$ and variance $\sigma^2$.
 
 
 \subsection{Standard Normal Distribution}
-A normal distribution with $\mu=0$ and $\sigma=1$ is called {\it standard normal}
-random variable, denoted by $Z$.
+\begin{definition}
+    A normal distribution with $\mu=0$ and $\sigma=1$ is called {\it standard normal}
+    random variable, denoted by $Z$.
+
+    Let X be a normally distributed random variable with mean
+    $\mu$ and standard deviation $\sigma$. Then
+    \begin{gather}
+        Z:=\frac{X-\mu}{\sigma}
+    \end{gather}
+    has standard normal distribution.
+\end{definition}
+
 
 \subsection{Transformation of Random Variables}
 Let $X$ be a continuous random variable with density $f_X$, and $Y=\varphi\circ X$,
 where $\varphi:\mathbb{R}\rightarrow\mathbb{R}$ is strictly monotonic and differentiable.
 The density for $Y$ is then given by
-\[f_Y(y)=\]
+\begin{gather*}
+    f_Y(y)=\begin{cases*}
+        f_X(\varphi^{-1}(y))\cdot\left\vert \dfrac{\dd\varphi^{-1}(y)}{\dy}\right\vert & y\in\mathrm{ran }\varphi    \\
+        0                                                                              & y\notin\mathrm{ran }\varphi
+    \end{cases*}
+\end{gather*}
 
 \section{Multivariate Random Variables}
+\begin{definition}
+    A discrete multivariate random variable is a map that
+    \begin{gather*}
+        \XX:S\rightarrow\varOmega
+    \end{gather*}
+\end{definition}
+
+\subsection{The Chebyshev Inequality}
+\begin{gather*}
+    P[\left\lvert X\right\rvert \ge c]\le\frac{\mathrm{E}[\left\lvert X\right\rvert^k]}{c^k}
+\end{gather*}
+
+\subsection{Approximation and Half-Unit Correlation}
+\begin{gather*}
+    P[X\le y] = \sum_{x=1}^{y}\binom{n}{x}p^x(1-p)^{n-x}\approx\phi\left(\frac{y+1/2-np}{\sqrt{np(1-p)}}\right)
+\end{gather*}
+
+% Chapter 9
 \section{The Weak Law of Large Numbers}
+
+% Chapter 10
 \section{The Hypergeometric Distribution}
+Drawing $N$ balls from an urn with $r$ red balls and $N-r$ black balls.
+The probability of getting $X$ red balls is given by the hypergeometric distribution.
+\begin{definition}
+    Let N, n, r $\in\mathbb{N}\backslash\{0\}, r, n\le N$
+    A random variable $(X, f_X)$ with
+    \begin{gather*}
+        X:S\rightarrow\Omega=\{0,\dots, n\}\\
+        f_X(x)=\frac{\binom{r}{x}\binom{N-r}{n-x}}{\binom{N}{n}}
+    \end{gather*}
+    is a hypergeometric distribution with N, n and r.
+\end{definition}
+\begin{gather*}
+    \mathrm{E}[X]=\mathrm{E}[X_1+\cdots+X_n]=\mathrm{E}[X_1]+\cdots+\mathrm{E}[X_n]=n\frac{r}{N}\\
+    \mathrm{Var}[X]=\mathrm{Var}[X_1]+\cdots+\mathrm{Var}[X_n]+2\sum_{i<j}^{}\mathrm{Cov}[X_i,X_j]
+\end{gather*}
+\subsection{Covarience}
+\begin{definition}
+    \begin{gather*}
+        \mathrm{Cov}[X_i,X_j]=\mathrm{E}[X_iX_j]-\mathrm{E}[X_i]\mathrm{E}[X_j]
+    \end{gather*}
+\end{definition}
+We note that $X_iX_j$ is also a Bernoulli variable (with only two outcomes).
+Then
+\begin{gather*}
+    \mathrm{E}[X_iX_j]=p_{ij}:=P[X_i=1\ \mathrm{and}\ X_j=1]
+\end{gather*}
+Since all Bernoulli trials in the experiment are identical,
+\begin{gather*}
+    p_{ij} = p_{12}=\frac{r}{N}\cdot\frac{r-1}{N-1}\\
+    p_{ii} = p_{11}=\frac{r}{N}.
+\end{gather*}
+Hence,
+\begin{gather*}
+    \mathrm{Var}[X_i]=\frac{r}{N}\left(1-\frac{r}{N}\right),\\
+    \mathrm{Cov}[X_i,X_j]=-\frac{1}{N}\cdot\frac{r(N-r)}{N(N-1)}.
+\end{gather*}
+
+\subsection{Approximating the Hypergeometric Distribution}
+An easy calculation gives
+\begin{gather*}
+    \mathrm{Var}[X]=n\frac{r}{N}\frac{N-r}{N}\frac{N-n}{N-1}.
+\end{gather*}
+If we let
+\begin{gather*}
+    p=\frac{r}{N},\quad q=\frac{N-r}{N}
+\end{gather*}
+the varience given by a binomial distribution is only differed by
+\begin{gather*}
+    \frac{N-n}{N-1}.
+\end{gather*}
+The binomial distribution can be used to approximate the hypergeometric distribution
+if {\it sampling fraction} $\dfrac{n}{N}$ is less than 0.05.
+
+
+% Chapter 11
 \section{Transformation of Random Variables}
+\begin{theorem}
+    Let $(\XX,f_{\XX})$ be a continuous multivariate random variable.
+    Let $\varphi:\mathbb{R}^n\rightarrow\mathbb{R}^n$
+    be a differentiable, bijective map with inverse $\varphi^{-1}$.
+    Then $\YY=\varphi\circ\XX$ is a continuous multivariate random variable with
+    density
+    \begin{gather*}
+        f_\YY(y)=f_\XX\circ\varphi^{-1}(y)\cdot\left\lvert \det D\varphi^{-1}(y)\right\rvert     \end{gather*}
+\end{theorem}
+\begin{lemma}
+    Let $((X,Y),f_{XY})$ be a continuous bivariate random variable.
+    Let $U=X/Y$, then $f_U$ is given by
+    \begin{gather*}
+        f_U(u)=\int_{-\infty}^{\infty}f_{XY}(uv,v)\cdot \left\lvert v\right\rvert \ \dd v.
+    \end{gather*}
+\end{lemma}
+
+\subsection{The Chi Random Variable}
+
+\begin{definition}
+    If each $Z_i$ follows a standard normal distribution, the random variable
+    \begin{gather*}
+        \chi_n:=\sqrt{\sum_{i=1}^{n}Z_i^2}
+    \end{gather*}
+    follows a chi distribution with $n$ degrees of freedom.
+\end{definition}
+
+
+\begin{lemma}
+    Let $\chi^2_{\gamma_1},\dots,\chi^2_{\gamma_n}$ be chi-square distributed independent
+    random variables, then
+    \begin{gather*}
+        \chi^2_\alpha:=\sum_{k=1}^{n}\chi^2_{\gamma_k}
+    \end{gather*}
+    is a chi-squared random variable with $\alpha=\sum_{k=1}^{n}\gamma_k$
+    degrees of freedom.
+\end{lemma}
+
+\subsection{The Chi-Squared Distribution}
+
+% Chapter 12
 \section{Reliability}
+\subsection{The Weibull Density}
+\begin{definition}
+    A harzard function, with reliability function and
+    \begin{gather*}
+        \varrho(t)=\alpha\beta t^{\beta-1}\\
+        R(t)=e^{-\alpha t^\beta}\\
+        f(t)=\varrho(t)R(t)=\alpha\beta t^{\beta-1}e^{-\alpha t^\beta}
+    \end{gather*}
+\end{definition}
+
 
 \newpage
+
 \part{Introduction to Stastics}
 \section{Samples and Data}
+\subsection{Random Sample}
+\begin{definition}
+    A random sample of size $n$
+\end{definition}
+The size of sample should not be over 5\%, or additional attention is needed.
+
+
+\subsection{Percentiles and Quartiles}
+The median (second quartile) is a measure of location of the data.
+The difference between the third and first quartile is called the
+interquartile range,
+$$\mathrm{IQR} = q_3 - q_1$$
+and is a measure of dispersion of the data.
+
+\subsection{Histogram}
+Traditionally, the number of bins $k$ in a histogram, by Sturges should be
+\[k=\lceil \log_2n\rceil + 1 \]
+However, there are flaws in the
+
+\subsection{The Freedman-Diaconis Rule}
+When drawing histograms with fixed bin width, to reduce
+\[\delta ^ 2 (h)=\mathrm{E}\left[\int_I \left\lvert H(x)-f_X(x)\right\rvert^2\,\dx \right] \]
+so that the error is minimized.
+The width $h$, in a simple way of calculation, is given by
+\[h=\frac{2\cdot\mathrm{IQR}}{\sqrt[3]{n}}.\]
+
+\subsection{Boxplots}
+% p308
+
 \section{Parameter Estimation}
+\begin{definition}
+    Let $\theta$ be an estimtor, $\hat{\theta}$ be the measured value of the estimator.
+    The difference
+    \begin{gather*}
+        \theta-\mathrm{E}[\hat{\theta}]
+    \end{gather*}
+    is the bias of the estimtor.
+
+    The mean square error of $\hat{\theta}$ is defined as
+    \begin{align*}
+        \mathrm{MSE}[\hat{\theta}]: & =\mathrm{E}[(\hat{\theta}-\theta)^2] \\
+                                    & =\mathrm{Var}[\hat{\theta}]+(bias)^2
+    \end{align*}
+\end{definition}
+\begin{theorem}
+    Let $\Bar{X}$ be the sample mean of a random sample of size n
+    from a distribution with mean $\mu$ and variance $\sigma^2$.
+    \begin{gather*}
+        \mathrm{Var}[\Bar{X}]=\mathrm{E}[(\bar{X}-\mu)^2]=\frac{\sigma^2}{n}
+    \end{gather*}
+\end{theorem}
+\begin{definition}
+    The standard deviation of $\Bar{X}$ is given by
+    \begin{gather*}
+        \sqrt{\mathrm{Var}[\Bar{X}]}=\frac{\sigma}{\sqrt{n}}
+    \end{gather*}
+    and is called {\bf the standard error of the mean}.
+\end{definition}
+
+\subsection{The Method of Moments}
+\begin{theorem}
+    For any integer $k\ge1$,
+    \begin{gather*}
+        \widehat{\mathrm{E}[X^k]}=\frac{1}{n}\sum_{i=1}^{n}X_i^k
+    \end{gather*}
+    is an unbiased estimator for the $k$th moment of $X$.
+\end{theorem}
+
+\subsection{Sample Variance}
+\begin{definition}
+    The sample varience is defined as
+    \begin{gather*}
+        S^2:=\frac{1}{n-1}\sum_{k=1}^{n}\left(X_k-\bar{X}\right)^2.
+    \end{gather*}
+    It is also an unbiased estimator.
+\end{definition}
+
+\subsection{Method of Maximum Likelihood}
+An approach to find estimators.
+\begin{definition}
+    \begin{gather*}
+        L(\theta)=\prod_{i=1}^n f_{X_\theta}(x_i)
+    \end{gather*}
+    If $X_\theta$ is discrete, $L(\theta)$ is the probability of $(X_1,\dots,X_n)=(x_1,\dots,x_n)$.\\
+    If $X_\theta$ is continuous, it is the probability density.\\
+
+    \noindent Then we maximize $L(\theta)$ and let the maximum location to be $\hat{\theta}$.
+\end{definition}
+
+
+% chapter 15
+
 \section{Interval Estimation}
+\begin{definition}
+    Let $0\le\alpha\le1$, the $100(1-\alpha)\%$ confidence interval for
+    parameter $\theta$ is $[L_1, L_2]$ so that
+    \begin{gather*}
+        P[L_1\le\theta\le L_2]=1-\alpha
+    \end{gather*}
+\end{definition}
+
+\subsection{Interval Estimation for the Mean (Variance Known)}
+We would like to find a number $L$ so that
+\begin{gather*}
+    P[\bar{X}-L\le\mu\le\bar{X}+L]=1-\alpha
+\end{gather*}
+The point $z_{\alpha/2}$ is defined by
+\begin{gather*}
+    \alpha/2=P[Z\ge z_{\alpha/2}]=\frac{1}{\sqrt{2\pi}}\int_{z_{\alpha/2}}^{\infty}
+    e^{-x^2/2}\,\dx
+\end{gather*}
+
+\subsection{The Helmert Transformation}
+
+\subsection{The $T$-Distribution}
+\begin{definition}
+    \begin{gather}
+        T_\gamma = \frac{Z}{\sqrt{\chi^2_\gamma/\gamma}}
+    \end{gather}
+\end{definition}
+
+
+% --------- End of Midterm --------- 
+
+% chapter 16
+
 \section{The Fisher Test}
+
+% chapter 17
 \section{Neyman-Pearson Decision Theory}
+
+% chapter 18
 \section{Null Hypothesis Significance Testing}
+% chapter 19
 \section{Single Sample Tests for the Mean and Variance}
+% chapter 20
 \section{Non-Parametric Single Sample Tests for the Median}
+% chapter 21
 \section{Inferences on Proportions}
+% chapter 22
 \section{Comparison of Two Variances}
+% chapter 23
 \section{Comparison of Two Means}
+% chapter 24
 \section{Non-Parametric Comparisons; Paired Tests and Correlation}
+% chapter 25
 \section{Categorical Data}
+
 
 \newpage
 \part{Introduction to Linear Regression}
+% chapter 26
 \section{Simple Linear Regression I: Basic Model and Inferences}
+% chapter 27
 \section{Simple Linear Regression II: Predictions and Model Analysis}
+% chapter 28
 \section{Multiple Linear Regression I: Basic Model}
+% chapter 29
 \section{Multiple Linear Regression II: Inferences on the Model}
+% chapter 30
 \section{Multiple Linear Regression III: Finding the Right Model}
+% chapter 31
 \section{ANOVA I: Basic Model}
+% chapter 32
 \section{ANOVA II: Homoscedasticity and Post-Tests}
 
 
